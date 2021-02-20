@@ -1,35 +1,16 @@
 package com.example.tetris3.Pecas
 
-import com.example.tetris3.Peca
+import Peca
 
-class Triangulo(var linha:Int,var coluna:Int): Peca(linha,coluna) {
+class Triangulo(var linha:Int,var coluna:Int): Peca(Ponto(linha,coluna),
+    Ponto(linha+1,coluna),
+    Ponto(linha+1,coluna+1),
+    Ponto(linha+1,coluna-1)) {
 
-    var pts =  arrayListOf<Peca>(
 
-        Peca(linha,coluna),
-        Peca(linha+1,coluna),
-        Peca(linha+1,coluna+1),
-        Peca(linha+1,coluna-1)
+    override fun rotacionar(){
 
-    )
 
-    override fun moverDireita() {
-        pts.forEach{
-            it.y++
-        }
-    }
-
-    override fun moverEsquerda() {
-        pts.forEach{
-            it.y--
-        }
 
     }
-
-    override fun moverBaixo() {
-        pts.forEach{
-            it.x++ }
-
-    }
-
 }

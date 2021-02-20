@@ -1,19 +1,29 @@
-package com.example.tetris3
+import com.example.tetris3.Pecas.Ponto
 
-open class Peca(var x:Int,var y:Int) {
+open class Peca(pontoA: Ponto, pontoB: Ponto, pontoC: Ponto, pontoD: Ponto) {
+    private var pontos = arrayOf(
+        Ponto(pontoA.x, pontoA.y),
+        Ponto(pontoB.x, pontoB.y),
+        Ponto(pontoC.x, pontoC.y),
+        Ponto(pontoD.x, pontoD.y)
+    )
 
-
-    open fun moverEsquerda(){
+    open fun moveDown(){
+        pontos.forEach { it.moveDown() }
+    }
+    open fun moveRight(){
+        pontos.forEach { it.moveRight() }
 
     }
-    open fun moverDireita(){
-
-    }
-    open fun moverBaixo(){
-
+    open fun moveLeft(){
+        pontos.forEach { it.moveLeft() }
     }
 
-    open fun mudarForma(){}
+    open fun rotacionar(){
 
+    }
 
+    fun getPontos(): Array<Ponto> {
+        return pontos
+    }
 }

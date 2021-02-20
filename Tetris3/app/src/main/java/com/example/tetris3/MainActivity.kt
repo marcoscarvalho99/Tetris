@@ -14,8 +14,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this,R.layout.activity_main)
 
-    binding.button.setOnClickListener {
+    binding.textViewNewGame.setOnClickListener {
         val intent= Intent(this,ActivityJogo::class.java)
+        startActivity(intent)
+    }
+
+    binding.textViewSetings.setOnClickListener {
+        val intent= Intent(this,Config::class.java)
         startActivity(intent)
     }
     }

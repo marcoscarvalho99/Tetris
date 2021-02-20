@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Tetris3</string>
+    <string name="logo">TETRIS</string>
+    <string name="novo_jogo">new game</string>
+    <string name="continuar">continue</string>
+    <string name="configurar">settings</string>
+    <string name="Pontos">Points:</string>
+    <string name="Próxima">next:</string>
 </resources>
