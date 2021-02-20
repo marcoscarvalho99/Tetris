@@ -19,39 +19,39 @@ class ActivityJogo : AppCompatActivity() {
 
     val LINHA = 36
     val COLUNA = 26
-    var pause=true;
-    var cordX=1;
-    var cordY=13;
+    var pause = true;
+    var cordX = 1;
+    var cordY = 13;
     var running = true
-    var speed:Long = 300
-     var aleatorio:Int=0
+    var speed: Long = 300
+    var aleatorio: Int = 0
     lateinit var peca: Peca
 
-    lateinit var binding : ActivityJogoBinding
+    lateinit var binding: ActivityJogoBinding
 
 
     var board = Array(LINHA) {
-        Array(COLUNA){0}
+        Array(COLUNA) { 0 }
     }
 
-    var boardView = Array(LINHA){
+    var boardView = Array(LINHA) {
         arrayOfNulls<ImageView>(COLUNA)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_jogo)
-        binding=DataBindingUtil.setContentView(this,R.layout.activity_jogo)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_jogo)
         binding.gridboard.rowCount = LINHA
         binding.gridboard.columnCount = COLUNA
         //inflador
-        val inflater = LayoutInflater.from( applicationContext)
+        val inflater = LayoutInflater.from(applicationContext)
 
 
         for (i in 0 until LINHA) {
             for (j in 0 until COLUNA) {
                 boardView[i][j] = inflater.inflate(R.layout.inflate_image_view, binding.gridboard, false) as ImageView
-                binding.gridboard.addView( boardView[i][j])
+                binding.gridboard.addView(boardView[i][j])
             }
         }
         for (i in 0 until LINHA) {
@@ -65,101 +65,19 @@ class ActivityJogo : AppCompatActivity() {
     }
 
 
-
-    fun escolherPeca(tipo:Int) {
-        when(tipo){
-            0 -> {
-                peca= Quadrado(cordX, cordY)
-            }
-            1 ->{
-                peca= Triangulo(cordX,cordY)
-            }
-            2 ->{
-                peca= Coluna(cordX,cordY)
-            }
-            3 ->{
-                peca= FormaL(cordX,cordY)
-            }else->{
-                peca= ze(cordX,cordX)
-            }
-
-        }
-
-    }
+    fun gameRun() {
 
 
-    fun printarPeca( ){
+        Thread {
 
-        try {
-            peca.getPontos().forEach {
-
-                boardView[ it.x][it.y]!!.setImageResource(R.drawable.white)
-
-            }
-        }catch (e:ArrayIndexOutOfBoundsException){
-            //se a peça passou das bordas eu vou parar o jogo
-            running = false
-
-        }
-    }
-    private fun borda(p: Ponto): Boolean {
-        return p.y == 0 || p.x == LINHA - 1 || p.y == COLUNA - 1 || p.x == 0
-    }
-    private fun posicaoValida(p:Ponto): Boolean {
-        if(
-            (board[p.x][p.y-1] == 1 && board[p.x+1][p.y] == 1) ||
-            (board[p.x][p.y+1] == 1 && board[p.x+1][p.y] == 1) || (board[p.x+1][p.y] == 1)
-        ){
-            return true
-        }
-        return false
-    }
-    private fun baixar(p:Array<Ponto>): Boolean{
-        p.forEach {
-            if(borda(Ponto(it.x+1, it.y)) || posicaoValida(it)){
-                return false
-            }
-        }
-        return true
-    }
-    private fun guardarposiccao(p:Array<Ponto>){
-        p.forEach {
-            board[it.x][it.y] = 1
-        }
-    }
-private fun paraDireita(p:Array<Ponto>):Boolean{
-
-    p.forEach {
-        if(board[it.x][it.y+1] == 1 || borda(Ponto(it.x, it.y+1))){
-            return false
-        }
-    }
-    return true
-}
-
-    private fun paraEsquerda(p:Array<Ponto>):Boolean{
-        p.forEach {
-            if(board[it.x][it.y-1] == 1 || borda(Ponto(it.x, it.y-1))){
-                return false
-            }
-        }
-        return true
-    }
-
-
-    fun gameRun(){
-
-
-        Thread{
-
-            aleatorio = Random.nextInt(4-0)
+            aleatorio = Random.nextInt(4 - 0)
 
             escolherPeca(aleatorio)
 
 
-            while(running) {
-                binding.imageButtonPause.setOnClickListener(){
-                    pause=!pause
+            while (running) {
+                binding.imageButtonPause.setOnClickListener() {
+                    pause = !pause
                 }
 
 
@@ -201,7 +119,9 @@ private fun paraDireita(p:Array<Ponto>):Boolean{
 
                         binding.imageButtonGirarPeca.setOnClickListener {
                             Toast.makeText(this, "botaogirar", Toast.LENGTH_SHORT).show()
-                            peca.rotacionar()
+
+                            girarPeca()
+                            Thread.sleep(300)
                         }
 
                         if (baixar(peca.getPontos())) {
@@ -230,8 +150,149 @@ private fun paraDireita(p:Array<Ponto>):Boolean{
                     }
                 }
 
-            } }.start()
+            }
+        }.start()
     }
 
-}
+    fun escolherPeca(tipo: Int) {
+        when (tipo) {
+            0 -> {
+                peca = Quadrado(cordX, cordY)
+            }
+            1 -> {
+                peca = Triangulo(cordX, cordY)
+            }
+            2 -> {
+                peca = Coluna(cordX, cordY)
+            }
+            3 -> {
+                peca = LetraLEsquerda(cordX, cordY)
+            }
+            else -> {
+                peca = LetraSDireita(cordX, cordX)
+            }
 
+        }
+
+    }
+
+
+    fun printarPeca() {
+
+        try {
+            peca.getPontos().forEach {
+
+                boardView[it.x][it.y]!!.setImageResource(R.drawable.white)
+
+            }
+        } catch (e: ArrayIndexOutOfBoundsException) {
+            //se a peça passou das bordas eu vou parar o jogo
+            running = false
+
+        }
+    }
+
+
+    private fun borda(p: Ponto): Boolean {
+        return p.y == 0 || p.x == LINHA - 1 || p.y == COLUNA - 1 || p.x == 0
+    }
+
+    private fun posicaoValida(p: Ponto): Boolean {
+        if (
+                (board[p.x][p.y - 1] == 1 && board[p.x + 1][p.y] == 1) ||
+                (board[p.x][p.y + 1] == 1 && board[p.x + 1][p.y] == 1) || (board[p.x + 1][p.y] == 1)
+        ) {
+            return true
+        }
+        return false
+    }
+
+    private fun baixar(p: Array<Ponto>): Boolean {
+        p.forEach {
+            if (borda(Ponto(it.x + 1, it.y)) || posicaoValida(it)) {
+                return false
+            }
+        }
+        return true
+    }
+
+    private fun guardarposiccao(p: Array<Ponto>) {
+        p.forEach {
+            board[it.x][it.y] = 1
+        }
+    }
+
+    private fun paraDireita(p: Array<Ponto>): Boolean {
+
+        p.forEach {
+            if (board[it.x][it.y + 1] == 1 || borda(Ponto(it.x, it.y + 1))) {
+                return false
+            }
+        }
+        return true
+    }
+
+    private fun paraEsquerda(p: Array<Ponto>): Boolean {
+        p.forEach {
+            if (board[it.x][it.y - 1] == 1 || borda(Ponto(it.x, it.y - 1))) {
+                return false
+            }
+        }
+        return true
+    }
+
+
+    private fun girarPeca() {
+        when (peca) {
+            is Quadrado -> {
+                //peca.rotacionar()
+            }
+            is Coluna -> {
+                var pontos = peca.rotacionar()
+                if (paraEsquerda(pontos) || paraDireita(pontos) || baixar(pontos)) {
+                    peca.setPontos(pontos)
+                    peca.getPontos().forEach {
+                        it.moveUp()
+                    }
+                    peca.setOrietacaPeca((peca as Coluna).orientacao)
+                } else {
+
+                }
+            }
+            is Triangulo -> {
+                var pontos = peca.rotacionar()
+                if (paraEsquerda(pontos) || paraDireita(pontos) || baixar(pontos)) {
+                    peca.setPontos(pontos)
+                    peca.getPontos().forEach {
+                        it.moveUp()
+                    }
+                    peca.setOrietacaPeca((peca as Triangulo).orientacao)
+                } else {
+
+                }
+            }
+            is LetraSDireita -> {
+                var pontos = peca.rotacionar()
+                if (paraEsquerda(pontos) || paraDireita(pontos) || baixar(pontos)) {
+                    peca.setPontos(pontos)
+                    peca.getPontos().forEach {
+                        it.moveUp()
+                    }
+                    peca.setOrietacaPeca((peca as LetraSDireita).orientacao)
+                }
+            }
+            is LetraLEsquerda -> {
+                var pontos = peca.rotacionar()
+                if (paraEsquerda(pontos) || paraEsquerda(pontos) || baixar(pontos)) {
+                    peca.setPontos(pontos)
+                    peca.getPontos().forEach {
+                        it.moveUp()
+                    }
+                    peca.setOrietacaPeca((peca as LetraLEsquerda).orientacao)
+                }
+            }
+
+
+        }
+    }
+}
