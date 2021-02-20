@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Tetris3</string>
+    <string name="novo_jogo" translatable="false">novo jogo</string>
+    <string name="logo">TETRIS</string>
+    <string name="continuar">continuar</string>
+    <string name="configurar">configuração</string>
+    <string name="Pontos">pontos:</string>
+    <string name="Próxima">proxima:</string>
+</resources>
