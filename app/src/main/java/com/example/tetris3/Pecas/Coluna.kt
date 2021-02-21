@@ -1,10 +1,6 @@
 package com.example.tetris3.Pecas
 
-import Peca
-import android.content.Context
-import android.widget.Toast
-
-class Coluna(linha:Int, coluna:Int, var orientacao: Int = 1):Peca(
+class Coluna(linha:Int, coluna:Int, var orientacao: Int = 1): Peca(
         Ponto(linha,coluna-2),
         Ponto(linha,coluna-1),
         Ponto(linha,coluna),

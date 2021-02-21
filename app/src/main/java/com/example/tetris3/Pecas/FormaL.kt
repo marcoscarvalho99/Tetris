@@ -1,7 +1,5 @@
 package com.example.tetris3.Pecas
 
-import Peca
-
 
 class FormaL(var linha:Int,var coluna:Int): Peca(Ponto(linha,coluna),
     Ponto(linha+1,coluna),

@@ -1,17 +1,13 @@
-package com.example.tetris3.Pecas
+package com.example.tetris3
 
-import Peca
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.tetris3.R
-import android.app.Application
 import android.widget.ImageView
 import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import com.example.tetris3.Pecas.*
 import com.example.tetris3.databinding.ActivityJogoBinding
-import java.util.concurrent.TimeUnit
-import kotlin.concurrent.timer
 import kotlin.random.Random
 
 

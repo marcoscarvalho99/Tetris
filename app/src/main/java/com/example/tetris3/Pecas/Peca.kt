@@ -1,4 +1,4 @@
-import com.example.tetris3.Pecas.Ponto
+package com.example.tetris3.Pecas
 
 open class Peca(pontoA: Ponto, pontoB: Ponto, pontoC: Ponto, pontoD: Ponto) {
     private var pontos = arrayOf(

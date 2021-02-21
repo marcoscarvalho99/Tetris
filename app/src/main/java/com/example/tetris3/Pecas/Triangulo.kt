@@ -1,8 +1,6 @@
 package com.example.tetris3.Pecas
 
-import Peca
-
-class Triangulo(linha:Int, coluna:Int, var orientacao:Int = 1):Peca(
+class Triangulo(linha:Int, coluna:Int, var orientacao:Int = 1): Peca(
         Ponto(linha,coluna-1),
         Ponto(linha-1,coluna),
         Ponto(linha,coluna),
