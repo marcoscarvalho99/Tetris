@@ -6,6 +6,10 @@ class LetraSDireita(linha:Int, coluna:Int, var orientacao:Int = 1): Peca(
         Ponto(linha+1,coluna),
         Ponto(linha+1,coluna-1)
 ){
+    override fun rotacionar(): Array<Ponto> {
+        return super.rotacionar()
+
+    }
 
     override fun setOrietacaPeca(o:Int){
         when(o){
@@ -21,6 +25,7 @@ class LetraSDireita(linha:Int, coluna:Int, var orientacao:Int = 1): Peca(
             4 -> {
                 orientacao = 1
             }
+
         }
     }
 }
